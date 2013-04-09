@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
 {
 	QCoreApplication a(argc, argv);
 
-	XmlElement * b = new XmlElement();
+//	XmlElement * b = new XmlElement();
 /*
 	const QMetaObject * obj = b->metaObject();
 	int indA = obj->indexOfProperty("a");

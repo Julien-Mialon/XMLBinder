@@ -22,72 +22,76 @@ QObject * XmlReader::read(QString _filename)
 
 	QDomDocument * document = new QDomDocument("XmlReaderDocument");
 	document->setContent(inputFile);
+	inputFile->close();
+	delete inputFile;
 
-	QDomElement rootElement = document->documentElement();
-	QDomNode rootNode = rootElement.firstChild();
+	m_elements.clear();
+	m_objects.clear();
+	m_currentElement = new XmlElement();
+	m_currentElement->addChild(m_rootElement);
+	m_currentObject = nullptr;
+
 
 	recursiveCall(document->documentElement());
-	/*
-	qDebug() << "";
-	qDebug() << "<" << rootElement.tagName() << ">";
-	while(!rootNode.isNull())
-	{
-		QDomElement currentElement = rootNode.toElement();
-		if(!currentElement.isNull())
-		{
-			if(currentElement.hasChildNodes())
-			{
-				qDebug() << "<" << currentElement.tagName() << ">";
 
-				qDebug() << "</" << currentElement.tagName() << ">";
-			}
-			else
-			{
-				qDebug() << "<" << currentElement.tagName() << ">" << currentElement.toText().data() << "</" << currentElement.tagName() << ">";
-			}
-		}
-		rootNode = rootNode.nextSibling();
-	}
-	qDebug() << "</" << rootElement.tagName() << ">";
-	*/
-	inputFile->close();
 	return NULL;
 }
 
-void XmlReader::recursiveCall(const QDomNode & _node, QString _tab)
+void XmlReader::recursiveCall(const QDomNode & _node)
 {
 	if(_node.isElement())
 	{
 		QDomElement element = _node.toElement();
+		XmlElement * xmlChildElement = getXmlElementByName(m_currentElement->children(), element.tagName());
 
-		QString attr = "";
+		QVector<XmlAttributeData> attrs;
 		if(_node.hasAttributes())
 		{
 			QDomNamedNodeMap attributes = _node.attributes();
 			for(int i = 0 ; i < attributes.length() ; ++i)
 			{
-				QDomNode a = attributes.item(i);
-
-				attr += a.nodeName() + "='" + a.nodeValue() + "'";
+				QDomNode attrData = attributes.item(i);
+				attrs.append(XmlAttributeData(attrData.nodeName(), attrData.nodeValue()));
 			}
 		}
-
-		std::cout << _tab.toStdString() << "<" << element.tagName().toStdString() << " " << attr.toStdString() << ">" << std::endl;
 
 		if(_node.hasChildNodes())
 		{
-			QDomNode node = _node.firstChild();
-			while(!node.isNull())
+			QDomNodeList children = _node.childNodes();
+			if(children.size() == 1 && children.item(0).isText())
 			{
-				recursiveCall(node, _tab + "\t");
-				node = node.nextSibling();
+				QString xmlContent = children.item(0).toText().data();
+				xmlChildElement->read(m_currentObject, xmlContent, attrs);
+			}
+			else
+			{
+				m_objects.push(m_currentObject);
+				m_elements.push(m_currentElement);
+				m_currentObject = xmlChildElement->read(m_currentObject, "", attrs);
+				m_currentElement = xmlChildElement;
+				for(int i = 0 ; i < children.size() ; ++i)
+				{
+					recursiveCall(children.item(i));
+				}
+				m_currentObject = m_objects.pop();
+				m_currentElement = m_elements.pop();
 			}
 		}
+		else
+		{
+			xmlChildElement->read(m_currentObject, "", attrs);
+		}
+	}
+}
 
-		std::cout << _tab.toStdString() << "</" << element.tagName().toStdString() << ">" << std::endl;
-	}
-	else if(_node.isText())
+XmlElement * XmlReader::getXmlElementByName(const QVector<XmlElement *> _elements, QString _tagName)
+{
+	foreach(XmlElement * element, _elements)
 	{
-		std::cout << _tab.toStdString() << _node.toText().data().toStdString() << std::endl;
+		if(element->identifier() == _tagName)
+		{
+			return element;
+		}
 	}
+	throw QString("No xml element for tag %1").arg(_tagName);
 }

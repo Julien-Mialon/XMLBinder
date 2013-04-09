@@ -7,17 +7,33 @@
 QT       -= gui
 QT       += xml
 
+QMAKE_CXXFLAGS += -std=c++0x
+
 TARGET = XmlBinder
 TEMPLATE = lib
 
 DEFINES += XMLBINDER_LIBRARY
 
 SOURCES += xmlelement.cpp \
-    xmlreader.cpp
+    xmlreader.cpp \
+    xmlattribute.cpp \
+    Interface/ibinder.cpp \
+    Interface/itransformer.cpp \
+    Tools/xmlattributedata.cpp \
+    Binder/objectbinder.cpp \
+    Binder/contentbinder.cpp \
+    Transformer/qstringtransformer.cpp
 
 HEADERS += xmlelement.hpp\
 	XmlBinder_global.hpp \
-    xmlreader.hpp
+    xmlreader.hpp \
+    xmlattribute.hpp \
+    Interface/ibinder.hpp \
+    Interface/itransformer.hpp \
+    Tools/xmlattributedata.hpp \
+    Binder/objectbinder.hpp \
+    Binder/contentbinder.hpp \
+    Transformer/qstringtransformer.hpp
 
 unix:!symbian {
     maemo5 {

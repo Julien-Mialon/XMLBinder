@@ -4,23 +4,42 @@
 #include "XmlBinder_global.hpp"
 
 #include <QObject>
-#include <iostream>
+#include <QString>
+#include <QVector>
 
-class XMLBINDERSHARED_EXPORT XmlElement : public QObject
+#include "xmlattribute.hpp"
+#include "Interface/ibinder.hpp"
+#include "Tools/xmlattributedata.hpp"
+
+class XMLBINDERSHARED_EXPORT XmlElement
 {
-	Q_OBJECT
-	Q_PROPERTY(int a READ bouh_a WRITE bouh_setA)
-
 	public:
 		XmlElement();
+		XmlElement(QString _identifier, IBinder * _binder);
 
-	public:
-		void bouh_setA(int _a) { m_a = _a; std::cout << "Set A = " << m_a << std::endl; }
-		int bouh_a() const { std::cout << "Get A = " << m_a << std::endl; return m_a; }
+		QObject * read(QObject * _source, QString _xmlContent, const QVector<XmlAttributeData> & _attributes);
+		//TODO : write mode.
 
+		/// Getters / Setters
+		QString identifier() const;
+		IBinder * binder() const;
+		QVector<XmlElement*> children() const;
+		QVector<XmlAttribute*> attributes() const;
+
+		void setIdentifier(QString _value);
+		void setBinder(IBinder * _binder);
+		void addChild(XmlElement * _element);
+		void addAttribute(XmlAttribute * _attr);
 
 	protected:
-		int m_a;
+		XmlAttributeData extractAttributeData(const QVector<XmlAttributeData> & _attributes, QString _attributeName);
+
+	protected:
+		QString m_identifier;
+
+		IBinder * m_binder;
+		QVector<XmlElement*> m_children;
+		QVector<XmlAttribute*> m_attributes;
 };
 
 #endif // XMLELEMENT_HPP
