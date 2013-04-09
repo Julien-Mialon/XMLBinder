@@ -1,0 +1,12 @@
+#ifndef XMLBINDER_GLOBAL_HPP
+#define XMLBINDER_GLOBAL_HPP
+
+#include <QtCore/qglobal.h>
+
+#if defined(XMLBINDER_LIBRARY)
+#  define XMLBINDERSHARED_EXPORT Q_DECL_EXPORT
+#else
+#  define XMLBINDERSHARED_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // XMLBINDER_GLOBAL_HPP
