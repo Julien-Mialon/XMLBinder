@@ -4,7 +4,7 @@
 #include "XmlBinder_global.hpp"
 #include "Interface/itransformer.hpp"
 
-class QStringTransformer : public ITransformer
+class XMLBINDERSHARED_EXPORT QStringTransformer : public ITransformer
 {
 	public:
 		static QStringTransformer * instance;

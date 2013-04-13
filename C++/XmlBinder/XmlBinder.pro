@@ -22,7 +22,8 @@ SOURCES += xmlelement.cpp \
     Tools/xmlattributedata.cpp \
     Binder/objectbinder.cpp \
     Binder/contentbinder.cpp \
-    Transformer/qstringtransformer.cpp
+    Transformer/qstringtransformer.cpp \
+    Binder/abstractbinder.cpp
 
 HEADERS += xmlelement.hpp\
 	XmlBinder_global.hpp \
@@ -33,7 +34,8 @@ HEADERS += xmlelement.hpp\
     Tools/xmlattributedata.hpp \
     Binder/objectbinder.hpp \
     Binder/contentbinder.hpp \
-    Transformer/qstringtransformer.hpp
+    Transformer/qstringtransformer.hpp \
+    Binder/abstractbinder.hpp
 
 unix:!symbian {
     maemo5 {
