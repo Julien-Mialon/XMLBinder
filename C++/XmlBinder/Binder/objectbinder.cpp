@@ -1,18 +1,34 @@
 #include "objectbinder.hpp"
 
-ObjectBinder(const QString & _fieldName, const QString & _objectClassName)
-	: AbstractBinder(_fieldName), m_objectClassName(_objectClassName)
-{
-	m_objectClassName = _objectClassName;
-	QMetaType type = QMetaType::type(m_objectClassName.toStdString().c_str());
-}
+#include "Tools/fieldaccess.hpp"
 
-QObject * read(QObject * _source, QString _content)
+ObjectBinder::ObjectBinder(const QString & _fieldName, const QString & _objectClassName, IBinder * _contentBinder)
+	: AbstractBinder(_fieldName), m_objectClassName(_objectClassName), m_contentBinder(_contentBinder)
 {
 
 }
 
-QString write(QObject * _source)
+QObject * ObjectBinder::read(QObject * _source, QString _content)
 {
+	int type = QMetaType::type(m_objectClassName.toStdString().c_str());
+	QObject * object = (QObject*)QMetaType::create(type);
 
+	FieldAccess::setValue(_source, this->fieldName(), QVariant(type, object));
+
+	if(m_contentBinder != nullptr)
+	{
+		m_contentBinder->read(object, _content);
+	}
+
+	return object;
+}
+
+QString ObjectBinder::write(QObject * _source)
+{
+	QString content = "";
+	if(m_contentBinder != nullptr)
+	{
+		content = m_contentBinder->write(this->getAffectedField(_source));
+	}
+	return content;
 }

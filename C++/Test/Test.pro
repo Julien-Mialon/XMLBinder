@@ -4,9 +4,11 @@
 #
 #-------------------------------------------------
 
-QT       += core
-QT       -= gui
-QT	 += xml
+QT	+= core
+QT	-= gui
+QT	+= xml
+
+QMAKE_CXXFLAGS += -std=c++0x
 
 TARGET = Test
 CONFIG   += console
@@ -15,7 +17,8 @@ CONFIG   -= app_bundle
 TEMPLATE = app
 
 
-SOURCES += main.cpp
+SOURCES += main.cpp \
+    girldata.cpp
 
 win32:CONFIG(release, debug|release): LIBS += -L$$OUT_PWD/../XmlBinder/release/ -lXmlBinder
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$OUT_PWD/../XmlBinder/debug/ -lXmlBinder
@@ -23,3 +26,6 @@ else:unix: LIBS += -L$$OUT_PWD/../XmlBinder/ -lXmlBinder
 
 INCLUDEPATH += $$PWD/../XmlBinder
 DEPENDPATH += $$PWD/../XmlBinder
+
+HEADERS += \
+    girldata.hpp

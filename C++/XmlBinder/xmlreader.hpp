@@ -26,6 +26,7 @@ class XMLBINDERSHARED_EXPORT XmlReader
 		XmlElement * m_rootElement;
 
 		QObject * m_currentObject;
+		QObject * m_lastObject;
 		XmlElement * m_currentElement;
 
 		QStack<QObject *> m_objects;

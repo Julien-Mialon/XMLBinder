@@ -132,3 +132,7 @@ UpgradeLog*.XML
 *.jar
 *.war
 *.ear
+
+# QtCreator build directory
+
+*-build-*

@@ -34,7 +34,7 @@ QObject * XmlReader::read(QString _filename)
 
 	recursiveCall(document->documentElement());
 
-	return NULL;
+	return m_lastObject;
 }
 
 void XmlReader::recursiveCall(const QDomNode & _node)
@@ -73,6 +73,7 @@ void XmlReader::recursiveCall(const QDomNode & _node)
 				{
 					recursiveCall(children.item(i));
 				}
+				m_lastObject = m_currentObject;
 				m_currentObject = m_objects.pop();
 				m_currentElement = m_elements.pop();
 			}

@@ -24,12 +24,12 @@ void AbstractBinder::setFieldName(const QString & _fieldName)
 	m_fieldName = _fieldName;
 }
 
-QObject * AbstractBinder::getAffectedField(QObject * source)
+QObject * AbstractBinder::getAffectedField(QObject * _source)
 {
-	if(source == nullptr)
+	if(_source == nullptr)
 	{
 		return nullptr;
 	}
-	QVariant v = source->property(m_fieldName.toStdString().c_str());
+	QVariant v = _source->property(m_fieldName.toStdString().c_str());
 	return v.value<QObject*>();
 }

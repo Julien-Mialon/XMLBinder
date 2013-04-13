@@ -16,7 +16,7 @@ class XMLBINDERSHARED_EXPORT AbstractBinder : public IBinder
 		QString fieldName();
 		void setFieldName(const QString & _fieldName);
 
-		virtual QObject * getAffectedField(QObject * source);
+		virtual QObject * getAffectedField(QObject * _source);
 
 		virtual QObject * read(QObject * _source, QString _content) = 0;
 		virtual QString write(QObject * _source) = 0;
