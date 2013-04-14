@@ -17,11 +17,10 @@ Q_DECLARE_METATYPE(GirlData)
 
 int main(int argc, char *argv[])
 {
+	std::cout << std::endl;
 	QCoreApplication a(argc, argv);
 
 	qRegisterMetaType<GirlData>("GirlData");
-
-
 
 	XmlElement * girl = new XmlElement("girl", new ObjectBinder("subchild", "GirlData"));
 	XmlElement * name = new XmlElement("name", new ContentBinder("name", QStringTransformer::instance));
@@ -31,6 +30,8 @@ int main(int argc, char *argv[])
 	XmlElement * ffloat = new XmlElement("float", new ContentBinder("ffloat", FloatTransformer::instance));
 	XmlElement * cchar = new XmlElement("char", new ContentBinder("cchar", CharTransformer::instance));
 
+	XmlAttribute * bouhAttr = new XmlAttribute("bouh", "bouh", IntTransformer::instance);
+
 	girl->addChild(name);
 	girl->addChild(age);
 	girl->addChild(btrue);
@@ -39,10 +40,10 @@ int main(int argc, char *argv[])
 	girl->addChild(cchar);
 
 	girl->addChild(girl);
+	girl->addAttribute(bouhAttr);
 
 	try
 	{
-
 		XmlReader r(girl);
 		GirlData * g = (GirlData*)(r.read("d:/3.xml"));
 		g->log();

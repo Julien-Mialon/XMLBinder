@@ -134,5 +134,5 @@ UpgradeLog*.XML
 *.ear
 
 # QtCreator build directory
-
+*.autosave
 *-build-*

@@ -6,7 +6,6 @@
 
 XmlReader::XmlReader(XmlElement * _rootElement)
 {
-	std::cout << std::endl;
 	this->m_rootElement = _rootElement;
 }
 

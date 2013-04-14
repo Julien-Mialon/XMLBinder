@@ -28,7 +28,9 @@ SOURCES += xmlelement.cpp \
     Transformer/inttransformer.cpp \
     Transformer/floattransformer.cpp \
     Transformer/booltransformer.cpp \
-    Transformer/chartransformer.cpp
+    Transformer/chartransformer.cpp \
+    Binder/nullbinder.cpp \
+    xmlwriter.cpp
 
 HEADERS += xmlelement.hpp\
 	XmlBinder_global.hpp \
@@ -46,7 +48,9 @@ HEADERS += xmlelement.hpp\
     Transformer/floattransformer.hpp \
     Transformer/booltransformer.hpp \
     Transformer/chartransformer.hpp \
-    Transformer/transformers.hpp
+    Transformer/transformers.hpp \
+    Binder/nullbinder.hpp \
+    xmlwriter.hpp
 
 unix:!symbian {
     maemo5 {

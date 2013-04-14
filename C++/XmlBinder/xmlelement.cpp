@@ -26,6 +26,11 @@ QObject * XmlElement::read(QObject * _source, QString _xmlContent, const QVector
 	return newObject;
 }
 
+void write(QObject * _data, QXmlStreamWriter * _writer)
+{
+	//TODO
+}
+
 /// Getters / Setters
 
 QString XmlElement::identifier() const

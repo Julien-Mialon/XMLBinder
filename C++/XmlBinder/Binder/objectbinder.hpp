@@ -20,8 +20,6 @@ class XMLBINDERSHARED_EXPORT ObjectBinder : public AbstractBinder
 	protected:
 		QString m_objectClassName;
 		IBinder * m_contentBinder;
-
-		const QMetaObject * m_metaObject;
 };
 
 #endif // OBJECTBINDER_HPP

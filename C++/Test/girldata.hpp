@@ -16,16 +16,17 @@ class GirlData : public QObject
 	Q_PROPERTY(float ffloat READ ffloat WRITE setFfloat)
 	Q_PROPERTY(char cchar READ cchar WRITE setCchar)
 	Q_PROPERTY(QObject* subchild READ subChild WRITE setSubChild)
+	Q_PROPERTY(int bouh READ bouh WRITE setBouh)
 
 	public:
-		GirlData(QObject *parent = 0) : QObject(parent), m_name("hello world"), m_age(42) {m_subChild = nullptr; }
+		GirlData(QObject *parent = 0) : QObject(parent), m_name("hello world"), m_age(42) {m_subChild = nullptr; m_bouh = 73; }
 		GirlData(const GirlData& _other) : QObject() {m_name = _other.m_name; m_age = _other.m_age; m_subChild = nullptr;  }
 
 		void log()
 		{
 			QString n = m_name;
 			int a = m_age;
-			qDebug() << "GirlData : m_name(" << n << ") m_age(" << a << ") m_true(" << m_true << ") m_false(" << m_false << ") m_float(" << m_float << ") m_char(" << m_char << ")";
+			qDebug() << "GirlData : m_name(" << n << ") m_age(" << a << ") m_bouh(" << m_bouh << ") m_true(" << m_true << ") m_false(" << m_false << ") m_float(" << m_float << ") m_char(" << m_char << ")";
 
 			if(subChild() != nullptr)
 				subChild()->log();
@@ -36,6 +37,9 @@ class GirlData : public QObject
 
 		int age() { return m_age; }
 		void setAge(int _age) { m_age = _age; }
+
+		int bouh() { return m_bouh; }
+		void setBouh(int _bouh) { m_bouh = _bouh; }
 
 		bool btrue() { return m_true; }
 		void setBtrue(bool _age) { m_true = _age; }
@@ -57,6 +61,7 @@ class GirlData : public QObject
 
 		QString m_name;
 		int m_age;
+		int m_bouh;
 
 		bool m_true;
 		bool m_false;

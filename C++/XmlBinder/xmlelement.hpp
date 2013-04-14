@@ -7,6 +7,8 @@
 #include <QString>
 #include <QVector>
 
+#include <QXmlStreamWriter>
+
 #include "xmlattribute.hpp"
 #include "Interface/ibinder.hpp"
 #include "Tools/xmlattributedata.hpp"
@@ -18,7 +20,7 @@ class XMLBINDERSHARED_EXPORT XmlElement
 		XmlElement(QString _identifier, IBinder * _binder);
 
 		QObject * read(QObject * _source, QString _xmlContent, const QVector<XmlAttributeData> & _attributes);
-		//TODO : write mode.
+		void write(QObject * _data, QXmlStreamWriter * _writer);
 
 		/// Getters / Setters
 		QString identifier() const;
