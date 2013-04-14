@@ -1,5 +1,6 @@
 #include "fieldaccess.hpp"
-
+#include <QDebug>
+#include <QMetaProperty>
 QVariant FieldAccess::value(QObject * _source, const QString & _fieldName)
 {
 	if(_source != nullptr && !_fieldName.isEmpty())
@@ -13,6 +14,10 @@ void FieldAccess::setValue(QObject * _source, const QString & _fieldName, const 
 {
 	if(_source != nullptr && !_fieldName.isEmpty())
 	{
-		_source->setProperty(_fieldName.toStdString().c_str(), _value);
+		bool res = _source->setProperty(_fieldName.toStdString().c_str(), _value);
+		if(!res)
+		{
+			throw QString("Can not set value of field %1 in object of type %2").arg(_fieldName, _source->metaObject()->className());
+		}
 	}
 }

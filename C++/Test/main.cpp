@@ -5,11 +5,11 @@
 #include <xmlreader.hpp>
 #include "Binder/objectbinder.hpp"
 #include "Binder/contentbinder.hpp"
-#include "Transformer/qstringtransformer.hpp"
+#include "Transformer/transformers.hpp"
 
 #include <QMetaObject>
 #include <QMetaProperty>
-
+#include <QDebug>
 #include <iostream>
 #include "girldata.hpp"
 
@@ -23,16 +23,35 @@ int main(int argc, char *argv[])
 
 
 
-	XmlElement * girl = new XmlElement("girl", new ObjectBinder("", "GirlData"));
+	XmlElement * girl = new XmlElement("girl", new ObjectBinder("subchild", "GirlData"));
 	XmlElement * name = new XmlElement("name", new ContentBinder("name", QStringTransformer::instance));
-	XmlElement * age = new XmlElement("age", new ContentBinder("age", QStringTransformer::instance));
+	XmlElement * age = new XmlElement("age", new ContentBinder("age", IntTransformer::instance));
+	XmlElement * btrue = new XmlElement("true", new ContentBinder("btrue", BoolTransformer::instance));
+	XmlElement * bfalse = new XmlElement("false", new ContentBinder("bfalse", BoolTransformer::instance));
+	XmlElement * ffloat = new XmlElement("float", new ContentBinder("ffloat", FloatTransformer::instance));
+	XmlElement * cchar = new XmlElement("char", new ContentBinder("cchar", CharTransformer::instance));
 
 	girl->addChild(name);
 	girl->addChild(age);
+	girl->addChild(btrue);
+	girl->addChild(bfalse);
+	girl->addChild(ffloat);
+	girl->addChild(cchar);
 
-	XmlReader r(girl);
-	GirlData * g = (GirlData*)(r.read("d:/3.xml"));
-	g->log();
+	girl->addChild(girl);
 
-	return a.exec();
+	try
+	{
+
+		XmlReader r(girl);
+		GirlData * g = (GirlData*)(r.read("d:/3.xml"));
+		g->log();
+	}
+	catch(QString & str)
+	{
+		qDebug() << "Exception : " << str;
+	}
+
+	return 0;
+	//return a.exec();
 }

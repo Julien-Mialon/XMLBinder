@@ -24,7 +24,11 @@ SOURCES += xmlelement.cpp \
     Binder/contentbinder.cpp \
     Transformer/qstringtransformer.cpp \
     Binder/abstractbinder.cpp \
-    Tools/fieldaccess.cpp
+    Tools/fieldaccess.cpp \
+    Transformer/inttransformer.cpp \
+    Transformer/floattransformer.cpp \
+    Transformer/booltransformer.cpp \
+    Transformer/chartransformer.cpp
 
 HEADERS += xmlelement.hpp\
 	XmlBinder_global.hpp \
@@ -37,7 +41,12 @@ HEADERS += xmlelement.hpp\
     Binder/contentbinder.hpp \
     Transformer/qstringtransformer.hpp \
     Binder/abstractbinder.hpp \
-    Tools/fieldaccess.hpp
+    Tools/fieldaccess.hpp \
+    Transformer/inttransformer.hpp \
+    Transformer/floattransformer.hpp \
+    Transformer/booltransformer.hpp \
+    Transformer/chartransformer.hpp \
+    Transformer/transformers.hpp
 
 unix:!symbian {
     maemo5 {

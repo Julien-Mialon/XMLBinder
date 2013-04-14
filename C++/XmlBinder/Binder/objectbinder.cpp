@@ -13,7 +13,7 @@ QObject * ObjectBinder::read(QObject * _source, QString _content)
 	int type = QMetaType::type(m_objectClassName.toStdString().c_str());
 	QObject * object = (QObject*)QMetaType::create(type);
 
-	FieldAccess::setValue(_source, this->fieldName(), QVariant(type, object));
+	FieldAccess::setValue(_source, this->fieldName(), QVariant::fromValue(object));
 
 	if(m_contentBinder != nullptr)
 	{
