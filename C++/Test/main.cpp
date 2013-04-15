@@ -6,6 +6,7 @@
 #include "Binder/objectbinder.hpp"
 #include "Binder/contentbinder.hpp"
 #include "Transformer/transformers.hpp"
+#include <xmlwriter.hpp>
 
 #include <QMetaObject>
 #include <QMetaProperty>
@@ -23,6 +24,8 @@ int main(int argc, char *argv[])
 	qRegisterMetaType<GirlData>("GirlData");
 
 	XmlElement * girl = new XmlElement("girl", new ObjectBinder("subchild", "GirlData"));
+	XmlElement * subgirl = new XmlElement("girl", new ObjectBinder("subchild", "GirlData"));
+	XmlElement * subsubgirl = new XmlElement("girl", new ObjectBinder("subchild", "GirlData"));
 	XmlElement * name = new XmlElement("name", new ContentBinder("name", QStringTransformer::instance));
 	XmlElement * age = new XmlElement("age", new ContentBinder("age", IntTransformer::instance));
 	XmlElement * btrue = new XmlElement("true", new ContentBinder("btrue", BoolTransformer::instance));
@@ -39,14 +42,34 @@ int main(int argc, char *argv[])
 	girl->addChild(ffloat);
 	girl->addChild(cchar);
 
-	girl->addChild(girl);
+	girl->addChild(subgirl);
 	girl->addAttribute(bouhAttr);
+
+	subgirl->addChild(name);
+	subgirl->addChild(age);
+	subgirl->addChild(btrue);
+	subgirl->addChild(bfalse);
+	subgirl->addChild(ffloat);
+	subgirl->addChild(cchar);
+	subgirl->addAttribute(bouhAttr);
+	subgirl->addChild(subsubgirl);
+
+	subsubgirl->addChild(name);
+	subsubgirl->addChild(age);
+	subsubgirl->addChild(btrue);
+	subsubgirl->addChild(bfalse);
+	subsubgirl->addChild(ffloat);
+	subsubgirl->addChild(cchar);
+	subsubgirl->addAttribute(bouhAttr);
 
 	try
 	{
 		XmlReader r(girl);
 		GirlData * g = (GirlData*)(r.read("d:/3.xml"));
 		g->log();
+
+		XmlWriter w(girl);
+		w.write("d:/2.xml", g);
 	}
 	catch(QString & str)
 	{

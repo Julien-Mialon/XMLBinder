@@ -16,6 +16,9 @@
 class XMLBINDERSHARED_EXPORT XmlElement
 {
 	public:
+		static bool s_firstStep;
+
+	public:
 		XmlElement();
 		XmlElement(QString _identifier, IBinder * _binder);
 

@@ -11,7 +11,7 @@ class XMLBINDERSHARED_EXPORT NullBinder : public AbstractBinder
 		NullBinder();
 
 		virtual QObject * read(QObject * _source, QString _content);
-		virtual QString write(QObject * _source);
+		virtual QPair<QString, QObject *> write(QObject * _source);
 };
 
 #endif // NULLBINDER_HPP

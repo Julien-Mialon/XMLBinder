@@ -23,12 +23,13 @@ QObject * ObjectBinder::read(QObject * _source, QString _content)
 	return object;
 }
 
-QString ObjectBinder::write(QObject * _source)
+QPair<QString, QObject *> ObjectBinder::write(QObject * _source)
 {
 	QString content = "";
+	QObject * affectedField = this->getAffectedField(_source);
 	if(m_contentBinder != nullptr)
 	{
-		content = m_contentBinder->write(this->getAffectedField(_source));
+		content = m_contentBinder->write(affectedField).first;
 	}
-	return content;
+	return QPair<QString, QObject*>(content, affectedField);
 }

@@ -15,7 +15,7 @@ class XMLBINDERSHARED_EXPORT ObjectBinder : public AbstractBinder
 		ObjectBinder(const QString & _fieldName, const QString & _objectClassName, IBinder * _contentBinder = nullptr);
 
 		virtual QObject * read(QObject * _source, QString _content);
-		virtual QString write(QObject * _source);
+		virtual QPair<QString, QObject *> write(QObject * _source);
 
 	protected:
 		QString m_objectClassName;

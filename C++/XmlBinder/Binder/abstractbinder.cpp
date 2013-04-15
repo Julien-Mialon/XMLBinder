@@ -1,6 +1,7 @@
 #include "abstractbinder.hpp"
 
 #include <QVariant>
+#include "Tools/fieldaccess.hpp"
 
 
 AbstractBinder::AbstractBinder()
@@ -30,6 +31,6 @@ QObject * AbstractBinder::getAffectedField(QObject * _source)
 	{
 		return nullptr;
 	}
-	QVariant v = _source->property(m_fieldName.toStdString().c_str());
+	QVariant v = FieldAccess::value(_source, m_fieldName);
 	return v.value<QObject*>();
 }

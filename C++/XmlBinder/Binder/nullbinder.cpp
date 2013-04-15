@@ -7,10 +7,11 @@ NullBinder::NullBinder() : AbstractBinder("")
 
 QObject * NullBinder::read(QObject * _source, QString _content)
 {
+	Q_UNUSED(_content)
 	return _source;
 }
 
-QString NullBinder::write(QObject * _source)
+QPair<QString, QObject *> NullBinder::write(QObject * _source)
 {
-	return "";
+	return QPair<QString, QObject*>("", _source);
 }

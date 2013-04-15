@@ -19,15 +19,18 @@ void XmlWriter::write(QString _filename, QObject * _object)
 
 		writer->writeStartDocument();
 
+		XmlElement::s_firstStep = true;
+
 		m_rootElement->write(_object, writer);
 
 		writer->writeEndDocument();
+		outputFile->close();
 		delete writer;
 	}
 	delete outputFile;
 }
 
-XmlElement * XmlReader::getXmlElementByName(const QVector<XmlElement *> _elements, QString _tagName)
+XmlElement * XmlWriter::getXmlElementByName(const QVector<XmlElement *> _elements, QString _tagName)
 {
 	foreach(XmlElement * element, _elements)
 	{

@@ -33,9 +33,12 @@ ITransformer * XmlAttribute::transformer()
 void XmlAttribute::read(QObject * _source, QString _value)
 {
 	QVariant v = transformer()->read(_value);
-	if(!_source->setProperty(m_fieldName.toStdString().c_str(), v))
-	{
-		throw QString("Can not set value of field %1 on object %2").arg(m_fieldName, _source->objectName());
-	}
+	FieldAccess::setValue(_source, m_fieldName, v);
+}
 
+void XmlAttribute::write(QObject * _source, QXmlStreamWriter * _writer)
+{
+	QVariant v = FieldAccess::value(_source, m_fieldName);
+	QString textValue = transformer()->write(v);
+	_writer->writeAttribute(m_identifier, textValue);
 }

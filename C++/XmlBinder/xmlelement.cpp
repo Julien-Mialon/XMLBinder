@@ -1,5 +1,6 @@
 #include "xmlelement.hpp"
 
+bool XmlElement::s_firstStep = false;
 
 XmlElement::XmlElement()
 {
@@ -26,9 +27,28 @@ QObject * XmlElement::read(QObject * _source, QString _xmlContent, const QVector
 	return newObject;
 }
 
-void write(QObject * _data, QXmlStreamWriter * _writer)
+void XmlElement::write(QObject * _data, QXmlStreamWriter * _writer)
 {
-	//TODO
+	_writer->writeStartElement(this->m_identifier);
+
+	bool first = XmlElement::s_firstStep;
+	XmlElement::s_firstStep = false;
+
+	QPair<QString, QObject *> res = m_binder->write(_data);
+
+	foreach(XmlAttribute* attr, m_attributes)
+	{
+		attr->write(first ? _data : res.second, _writer);
+	}
+
+	_writer->writeCharacters(res.first);
+
+	foreach(XmlElement* child, m_children)
+	{
+		child->write(first ? _data : res.second, _writer);
+	}
+
+	_writer->writeEndElement();
 }
 
 /// Getters / Setters

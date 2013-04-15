@@ -14,9 +14,8 @@ QObject * ContentBinder::read(QObject * _source, QString _content)
 	return _source;
 }
 
-QString ContentBinder::write(QObject * _source)
+QPair<QString, QObject *> ContentBinder::write(QObject * _source)
 {
-	Q_UNUSED(_source);
-	//TODO : write content binder part.
-	return "";
+	QVariant v = FieldAccess::value(_source, this->fieldName());
+	return QPair<QString, QObject*>(m_transformer->write(v), _source);
 }

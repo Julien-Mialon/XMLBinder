@@ -5,8 +5,10 @@
 
 #include <QString>
 #include <QObject>
+#include <QtXml>
 
 #include "Interface/itransformer.hpp"
+#include "Tools/fieldaccess.hpp"
 
 class XMLBINDERSHARED_EXPORT XmlAttribute
 {
@@ -19,7 +21,7 @@ class XMLBINDERSHARED_EXPORT XmlAttribute
 		ITransformer * transformer();
 
 		void read(QObject * _source, QString _value);
-		//TODO write part
+		void write(QObject * _source, QXmlStreamWriter * _writer);
 
 	protected:
 		QString m_identifier;

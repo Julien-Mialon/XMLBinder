@@ -5,6 +5,7 @@
 
 #include <QObject>
 #include <QString>
+#include <QPair>
 
 class XMLBINDERSHARED_EXPORT IBinder
 {
@@ -23,9 +24,9 @@ class XMLBINDERSHARED_EXPORT IBinder
 		/**
 		 * @brief write Method to convert object to string representation.
 		 * @param _source : the object to convert to string.
-		 * @return string representation of the parameter.
+		 * @return <string representation of the parameter, QObject* next child data to use>
 		 */
-		virtual QString write(QObject * _source) = 0;
+		virtual QPair<QString, QObject *> write(QObject * _source) = 0;
 
 		/**
 		 * @brief getAffectedField Method to get the value of the field affected by this binder.
