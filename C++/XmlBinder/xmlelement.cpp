@@ -29,23 +29,39 @@ QObject * XmlElement::read(QObject * _source, QString _xmlContent, const QVector
 
 void XmlElement::write(QObject * _data, QXmlStreamWriter * _writer)
 {
-	_writer->writeStartElement(this->m_identifier);
-
 	bool first = XmlElement::s_firstStep;
 	XmlElement::s_firstStep = false;
 
-	QPair<QString, QObject *> res = m_binder->write(_data);
+	if(m_binder->isIterable())
+	{
+		QList<QPair<QString, QObject*> > lists = m_binder->writeIterableItem(_data);
+		foreach(auto item, lists)
+		{
+			writeElement(_data, item, _writer, first);
+		}
+	}
+	else
+	{
+		QPair<QString, QObject *> res = m_binder->write(_data);
+		writeElement(_data, res, _writer, first);
+	}
+
+}
+
+void XmlElement::writeElement(QObject * _data, QPair<QString, QObject*> _value, QXmlStreamWriter * _writer, bool _first)
+{
+	_writer->writeStartElement(this->m_identifier);
 
 	foreach(XmlAttribute* attr, m_attributes)
 	{
-		attr->write(first ? _data : res.second, _writer);
+		attr->write(_first ? _data : _value.second, _writer);
 	}
 
-	_writer->writeCharacters(res.first);
+	_writer->writeCharacters(_value.first);
 
 	foreach(XmlElement* child, m_children)
 	{
-		child->write(first ? _data : res.second, _writer);
+		child->write(_first ? _data : _value.second, _writer);
 	}
 
 	_writer->writeEndElement();

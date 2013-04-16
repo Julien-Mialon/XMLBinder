@@ -30,7 +30,8 @@ SOURCES += xmlelement.cpp \
     Transformer/booltransformer.cpp \
     Transformer/chartransformer.cpp \
     Binder/nullbinder.cpp \
-    xmlwriter.cpp
+    xmlwriter.cpp \
+    Transformer/objecttransformer.cpp
 
 HEADERS += xmlelement.hpp\
 	XmlBinder_global.hpp \
@@ -52,7 +53,8 @@ HEADERS += xmlelement.hpp\
     Binder/nullbinder.hpp \
     xmlwriter.hpp \
     Binder/qlistbinder.hpp \
-    Binder/qlistbinder.tpp
+    Binder/qlistbinder.tpp \
+    Transformer/objecttransformer.hpp
 
 unix:!symbian {
     maemo5 {

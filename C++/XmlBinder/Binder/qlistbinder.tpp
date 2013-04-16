@@ -35,8 +35,34 @@ template<typename T>
 QPair<QString, QObject *> QListBinder<T>::write(QObject * _source)
 {
 	Q_UNUSED(_source)
-	//TODO
 	return QPair<QString, QObject*>("", nullptr);
+}
+
+template<typename T>
+QList<QPair<QString, QObject*> > QListBinder<T>::writeIterableItem(QObject * _source)
+{
+	QList<QPair<QString, QObject *> > results;
+	QVariant listValue = FieldAccess::value(_source, this->fieldName());
+	QList<T> list = listValue.value< QList<T> >();
+	foreach(T item, list)
+	{
+		QVariant var = QVariant::fromValue(item);
+		QString stringRepresentation = m_internalTransformer->write(var);
+		QObject * res = _source;
+		if(var.canConvert(QMetaType::QObjectStar))
+		{
+			res = var.value<QObject*>();
+		}
+		results.append(QPair<QString, QObject*>(stringRepresentation, res));
+	}
+	return results;
+}
+
+
+template<typename T>
+bool QListBinder<T>::isIterable()
+{
+	return true;
 }
 
 #endif

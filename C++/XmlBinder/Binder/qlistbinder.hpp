@@ -9,6 +9,8 @@
 
 
 #include <QList>
+#include <QVariant>
+#include <QObject>
 
 template<typename T>
 class QListBinder : public AbstractBinder
@@ -18,6 +20,9 @@ class QListBinder : public AbstractBinder
 
 		virtual QObject * read(QObject * _source, QString _content);
 		virtual QPair<QString, QObject *> write(QObject * _source);
+		virtual QList<QPair<QString, QObject*> > writeIterableItem(QObject * _source);
+
+		virtual bool isIterable();
 
 	protected:
 		ITransformer * m_internalTransformer;

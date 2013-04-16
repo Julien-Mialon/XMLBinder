@@ -38,6 +38,7 @@ class XMLBINDERSHARED_EXPORT XmlElement
 
 	protected:
 		XmlAttributeData extractAttributeData(const QVector<XmlAttributeData> & _attributes, QString _attributeName);
+		void writeElement(QObject * _data, QPair<QString, QObject*> _value, QXmlStreamWriter * _writer, bool _first);
 
 	protected:
 		QString m_identifier;

@@ -49,7 +49,7 @@ class TestClass : public QObject
 			return m_ages;
 		}
 
-
+	public slots:
 		void log() {
 			qDebug() << "m_names[" << m_names.length() << "](" << m_names << ")";
 			qDebug() << "m_ages[" << m_ages.length() << "](" << m_ages << ")";
@@ -59,6 +59,69 @@ class TestClass : public QObject
 		QList<QString> m_names;
 		QList<int> m_ages;
 };
+
+class ItemClass : public QObject
+{
+	Q_OBJECT
+
+	Q_PROPERTY(QString name READ name WRITE setName)
+	Q_PROPERTY(int age READ age WRITE setAge)
+	Q_PROPERTY(bool current READ current WRITE setCurrent)
+
+	public:
+		ItemClass(QObject * parent = nullptr) : QObject(parent), m_name("hello world"), m_age(73), m_current(false) {}
+		ItemClass(const ItemClass & _other) : QObject() { m_name = _other.m_name; m_age = _other.m_age; m_current = _other.m_current; }
+
+		ItemClass & operator=(const ItemClass & _other) {m_name = _other.m_name; m_age = _other.m_age; m_current = _other.m_current; return *this;}
+
+		QString name() { return m_name; }
+		void setName(const QString & _name) { m_name = _name; }
+
+		int age() { return m_age; }
+		void setAge(int _age) { m_age = _age; }
+
+		bool current() { return m_current; }
+		void setCurrent(bool _current) { m_current = _current; }
+	public slots:
+		void log() {
+			qDebug() << "m_name(" << m_name << ") m_age(" << m_age << ") m_current(" << m_current << ")";
+		}
+
+	protected:
+		QString m_name;
+		int m_age;
+		bool m_current;
+};
+
+class ItemsClass : public QObject
+{
+	Q_OBJECT
+
+	Q_PROPERTY(QList<ItemClass*> items READ items WRITE setItems)
+
+	public:
+		ItemsClass(QObject * parent = nullptr) : QObject(parent) {}
+		ItemsClass(const ItemsClass & _other) : QObject() {m_items = _other.m_items;}
+
+		void setItems(QList<ItemClass*> _items) {
+			m_items = _items;
+		}
+		QList<ItemClass*> items() {
+			return m_items;
+		}
+	public slots:
+		void log() {
+			qDebug() << "=== ItemsClass ===";
+			foreach(ItemClass* item, m_items)
+			{
+				item->log();
+			}
+		}
+
+	protected:
+		QList<ItemClass*> m_items;
+};
+
 
 
 #endif // TESTCLASS_HPP

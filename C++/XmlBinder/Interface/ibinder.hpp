@@ -34,6 +34,19 @@ class XMLBINDERSHARED_EXPORT IBinder
 		 * @return the value of the field affected by this binder.
 		 */
 		virtual QObject * getAffectedField(QObject * source) = 0;
+
+		/**
+		 * @brief isIterable Method to know if a binder is used for a collection and needs to be iterate while writing.
+		 * @return true if collection, false otherwise.
+		 */
+		virtual bool isIterable() = 0;
+
+		/**
+		 * @brief writeIterableItem Method to convert collections objects to string representation.
+		 * @param _source : the object where to find the collection to convert.
+		 * @return list of all converted object which was in the collection.
+		 */
+		virtual QList<QPair<QString, QObject*> > writeIterableItem(QObject * _source) = 0;
 };
 
 #endif // IBINDER_HPP

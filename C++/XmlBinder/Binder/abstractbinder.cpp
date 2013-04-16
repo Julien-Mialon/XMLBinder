@@ -34,3 +34,14 @@ QObject * AbstractBinder::getAffectedField(QObject * _source)
 	QVariant v = FieldAccess::value(_source, m_fieldName);
 	return v.value<QObject*>();
 }
+
+bool AbstractBinder::isIterable()
+{
+	return false;
+}
+
+QList<QPair<QString, QObject*> > AbstractBinder::writeIterableItem(QObject * _source)
+{
+	Q_UNUSED(_source)
+	return QList<QPair<QString, QObject*> >();
+}

@@ -6,5 +6,6 @@
 #include "Transformer/floattransformer.hpp"
 #include "Transformer/inttransformer.hpp"
 #include "Transformer/qstringtransformer.hpp"
+#include "Transformer/objecttransformer.hpp"
 
 #endif // TRANSFORMERS_HPP

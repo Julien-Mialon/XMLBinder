@@ -18,10 +18,12 @@
 #include "girldata.hpp"
 #include "testclass.hpp"
 
+#define REGISTER_TYPE(ClassName) qRegisterMetaType<ClassName>("" #ClassName "")
+
 Q_DECLARE_METATYPE(GirlData)
 Q_DECLARE_METATYPE(TestClass)
-//Q_DECLARE_METATYPE(QList<QString>)
-
+Q_DECLARE_METATYPE(ItemClass)
+Q_DECLARE_METATYPE(ItemsClass)
 
 
 int main(int argc, char *argv[])
@@ -29,6 +31,12 @@ int main(int argc, char *argv[])
 	std::cout << std::endl;
 	QCoreApplication a(argc, argv);
 
+	REGISTER_TYPE(GirlData);
+	REGISTER_TYPE(TestClass);
+	REGISTER_TYPE(ItemClass);
+	REGISTER_TYPE(ItemsClass);
+
+/*
 	qRegisterMetaType<GirlData>("GirlData");
 	qRegisterMetaType<TestClass>("TestClass");
 
@@ -48,7 +56,21 @@ int main(int argc, char *argv[])
 	listeInt.append(73);
 	test->setProperty("ages", QVariant::fromValue(listeInt));
 	test->log();
+*/
+	QListBinder<ItemClass*> * qItemListBinder = new QListBinder<ItemClass*>("items", new ObjectTransformer("ItemClass"));
 
+	XmlElement * docRoot = new XmlElement("list", new ObjectBinder("", "ItemsClass"));
+	XmlElement * item = new XmlElement("item", qItemListBinder);
+	XmlElement * name = new XmlElement("name", new ContentBinder("name", QStringTransformer::instance));
+	XmlElement * age = new XmlElement("age", new ContentBinder("age", IntTransformer::instance));
+
+	XmlAttribute * currentAttr = new XmlAttribute("current", "current", BoolTransformer::instance);
+
+	item->addChild(name);
+	item->addChild(age);
+	item->addAttribute(currentAttr);
+	docRoot->addChild(item);
+/*
 	QListBinder<QString> * qStringListBinder = new QListBinder<QString>("names", QStringTransformer::instance);
 	QListBinder<int> * qIntListBinder = new QListBinder<int>("ages", IntTransformer::instance);
 
@@ -58,16 +80,17 @@ int main(int argc, char *argv[])
 
 	list->addChild(value);
 	list->addChild(intval);
-
+*/
 	try
 	{
-		XmlReader r(list);
-		TestClass * g = (TestClass*)(r.read("d:/list.xml"));
+		XmlReader r(docRoot);
+		ItemsClass * g = (ItemsClass*)(r.read("d:/list_object.xml"));
 		g->log();
-		/*
-		XmlWriter w(girl);
-		w.write("d:/2.xml", g);
-		*/
+
+		XmlWriter w(docRoot);
+		w.write("d:/list_object_w.xml", g);
+
+
 	}
 	catch(QString & str)
 	{
