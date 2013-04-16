@@ -5,7 +5,9 @@
 #include <QString>
 #include <QVariant>
 
-class FieldAccess
+#include "XmlBinder_global.hpp"
+
+class XMLBINDERSHARED_EXPORT FieldAccess
 {
 	public:
 

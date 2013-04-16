@@ -11,7 +11,7 @@
 #include <QList>
 
 template<typename T>
-class XMLBINDERSHARED_EXPORT QListBinder : public AbstractBinder
+class QListBinder : public AbstractBinder
 {
 	public:
 		QListBinder(const QString & _fieldName, ITransformer * _internalTransformer);

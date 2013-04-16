@@ -7,6 +7,7 @@
 #include "Binder/contentbinder.hpp"
 #include "Binder/qlistbinder.hpp"
 #include "Transformer/transformers.hpp"
+#include "Tools/fieldaccess.hpp"
 #include <xmlwriter.hpp>
 
 #include <QMetaObject>
@@ -29,7 +30,7 @@ int main(int argc, char *argv[])
 	QCoreApplication a(argc, argv);
 
 	qRegisterMetaType<GirlData>("GirlData");
-	qRegisterMetaType<GirlData>("TestClass");
+	qRegisterMetaType<TestClass>("TestClass");
 
 	TestClass * test = new TestClass();
 
@@ -48,7 +49,30 @@ int main(int argc, char *argv[])
 	test->setProperty("ages", QVariant::fromValue(listeInt));
 	test->log();
 
-	QListBinder<QString> * qStringListBinder = new QListBinder<QString>("", nullptr);
+	QListBinder<QString> * qStringListBinder = new QListBinder<QString>("names", QStringTransformer::instance);
+	QListBinder<int> * qIntListBinder = new QListBinder<int>("ages", IntTransformer::instance);
+
+	XmlElement * list = new XmlElement("list", new ObjectBinder("", "TestClass"));
+	XmlElement * value = new XmlElement("value", qStringListBinder);
+	XmlElement * intval = new XmlElement("int", qIntListBinder);
+
+	list->addChild(value);
+	list->addChild(intval);
+
+	try
+	{
+		XmlReader r(list);
+		TestClass * g = (TestClass*)(r.read("d:/list.xml"));
+		g->log();
+		/*
+		XmlWriter w(girl);
+		w.write("d:/2.xml", g);
+		*/
+	}
+	catch(QString & str)
+	{
+		qDebug() << "Exception : " << str;
+	}
 
 	for(int i = 0 ; i < 200000000 ; ++i);
 
