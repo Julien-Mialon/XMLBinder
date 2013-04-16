@@ -50,7 +50,9 @@ HEADERS += xmlelement.hpp\
     Transformer/chartransformer.hpp \
     Transformer/transformers.hpp \
     Binder/nullbinder.hpp \
-    xmlwriter.hpp
+    xmlwriter.hpp \
+    Binder/qlistbinder.hpp \
+    Binder/qlistbinder.tpp
 
 unix:!symbian {
     maemo5 {

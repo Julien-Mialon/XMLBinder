@@ -5,16 +5,23 @@
 #include <xmlreader.hpp>
 #include "Binder/objectbinder.hpp"
 #include "Binder/contentbinder.hpp"
+#include "Binder/qlistbinder.hpp"
 #include "Transformer/transformers.hpp"
 #include <xmlwriter.hpp>
 
 #include <QMetaObject>
 #include <QMetaProperty>
 #include <QDebug>
+#include <QList>
 #include <iostream>
 #include "girldata.hpp"
+#include "testclass.hpp"
 
 Q_DECLARE_METATYPE(GirlData)
+Q_DECLARE_METATYPE(TestClass)
+//Q_DECLARE_METATYPE(QList<QString>)
+
+
 
 int main(int argc, char *argv[])
 {
@@ -22,7 +29,30 @@ int main(int argc, char *argv[])
 	QCoreApplication a(argc, argv);
 
 	qRegisterMetaType<GirlData>("GirlData");
+	qRegisterMetaType<GirlData>("TestClass");
 
+	TestClass * test = new TestClass();
+
+	test->log();
+	QList<QString> liste = test->property("names").value<QList<QString> >();
+	liste.append(QString("hello world"));
+	liste.append(QString("letti"));
+	liste.append(QString("bouh"));
+	test->setProperty("names", QVariant::fromValue(liste));
+	test->log();
+
+	QList<int> listeInt = test->property("ages").value<QList<int> >();
+	listeInt.append(42);
+	listeInt.append(51);
+	listeInt.append(73);
+	test->setProperty("ages", QVariant::fromValue(listeInt));
+	test->log();
+
+	QListBinder<QString> * qStringListBinder = new QListBinder<QString>("", nullptr);
+
+	for(int i = 0 ; i < 200000000 ; ++i);
+
+	/*
 	XmlElement * girl = new XmlElement("girl", new ObjectBinder("subchild", "GirlData"));
 	XmlElement * subgirl = new XmlElement("girl", new ObjectBinder("subchild", "GirlData"));
 	XmlElement * subsubgirl = new XmlElement("girl", new ObjectBinder("subchild", "GirlData"));
@@ -75,7 +105,7 @@ int main(int argc, char *argv[])
 	{
 		qDebug() << "Exception : " << str;
 	}
-
+	*/
 	return 0;
 	//return a.exec();
 }
